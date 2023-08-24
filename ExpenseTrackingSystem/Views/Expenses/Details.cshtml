@@ -1,0 +1,83 @@
+﻿@model ExpenseTrackingSystem.Models.Expense
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject ExpenseTrackingSystem.Data.ApplicationDbContext Context
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-xl-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Create Account</h5>
+                        </div>
+                        <div class="card-body row">
+                            <div class="mb-3 col-md-6">
+                                <label class="col-form-label pt-0">Amount</label>
+                                <input disabled required class="form-control" type="text" placeholder="Enter name" value="@(Model.Amount.ToString("C"))">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="col-form-label pt-0">Type</label>
+                                <input disabled required asp-for="Amount" class="form-control" type="text" placeholder="Enter name" value="@(Model.Type == 1 ? "Expense" : "Saving")">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="col-form-label pt-0">Account</label>
+                                <input disabled required class="form-control" type="text" placeholder="Enter name" value="@GetAccountName(Model.AccountId)">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="col-form-label pt-0">Category</label>
+                                <input disabled required class="form-control" type="text" placeholder="Enter name" value="@GetCategoryName(Model.CategoryId)">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label asp-for="Description" class="col-form-label pt-0">Description</label>
+                                <input disabled required asp-for="Description" class="form-control" type="text" placeholder="Enter name">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label asp-for="Date" class="col-form-label pt-0">Date</label>
+                                <input disabled required asp-for="Date" class="form-control" type="text" placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a asp-action="Index">
+                                <button type="button" class="btn btn-secondary">Back</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+@functions {
+    public string GetAccountName(int accountId)
+    {
+        if (Context != null)
+        {
+            var account = Context.Account.FirstOrDefault(a => a.Id == accountId);
+            return account != null ? account.Name : "No Account";
+        }
+        return "-";
+    }
+}
+
+@functions {
+    public string GetCategoryName(int categoryId)
+    {
+        if (Context != null)
+        {
+            var category = Context.Category.FirstOrDefault(a => a.Id == categoryId);
+            return category != null ? category.Name : "No Account";
+        }
+        return "-";
+    }
+}

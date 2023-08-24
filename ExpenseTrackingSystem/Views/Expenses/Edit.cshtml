@@ -1,0 +1,74 @@
+﻿@model ExpenseTrackingSystem.Models.Expense
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-xl-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form asp-action="Edit">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Create Account</h5>
+                            </div>
+                            <div class="card-body row">
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="Amount" class="col-form-label pt-0">Amount</label>
+                                    <input required asp-for="Amount" class="form-control" type="number" placeholder="Enter name">
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="Type" class="col-form-label pt-0">Type</label>
+                                    <select asp-for="Type" class="form-control">
+                                        <option value="1">Expense</option>
+                                        <option value="0">Saving</option>
+                                    </select>
+                                    <span asp-validation-for="Type" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="AccountId" class="col-form-label pt-0">Account</label>
+                                    @Html.DropDownListFor(model => model.AccountId, (SelectList)ViewBag.Accounts, "Select a account", new { @class = "form-control" })
+                                    <span asp-validation-for="AccountId" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="CategoryId" class="col-form-label pt-0">Category</label>
+                                    @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.Categories, "Select a category", new { @class = "form-control" })
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="Description" class="col-form-label pt-0">Description</label>
+                                    <input required asp-for="Description" class="form-control" type="text" placeholder="Enter name">
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label asp-for="Date" class="col-form-label pt-0">Date</label>
+                                    <input required asp-for="Date" class="form-control" type="date" placeholder="Enter name">
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <a asp-action="Index">
+                                    <button type="button" class="btn btn-secondary">Cancel</button>
+                                </a>
+
+                                <input asp-for="IsDeleted" value="0" type="hidden">
+                                <input asp-for="CreatedBy" class="form-control" type="hidden" value="@UserManager.GetUserId(User)">
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

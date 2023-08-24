@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ExpenseTrackingSystem.Models.Category>
+
+@{
+    ViewData["Title"] = "Category Listing";
+    int key = 0;
+}
+<div class="container-fluid">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-6 d-flex">
+                <h3>Category Listing</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- HTML (DOM) sourced data  Starts-->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5>Category Listing</h5>
+                    <a asp-action="Create">
+                        <button class="btn btn-primary pull-right" type="button" data-bs-toggle="tooltip" title="" data-bs-original-title="btn btn-primary">Create Category</button>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="data-source-1" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model) {
+                                <tr>
+                                        <td>@key</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>
+                                        <ul class="action d-flex justify-content-around w-50 text-center mx-auto">
+                                            <li class="view"><a asp-action="Details" asp-route-id="@item.Id"><i class="icon-eye"></i></a></li>
+                                            <li class="edit"> <a asp-action="Edit" asp-route-id="@item.Id"><i class="icofont icofont-ui-edit"></i></a></li>
+                                            <li class="delete"><a asp-action="Delete" asp-route-id="@item.Id"><i class="icofont icofont-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                    key++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

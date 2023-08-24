@@ -1,0 +1,45 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<div class="login-card login-dark" style="background-size: contain;">
+    <div>
+        <div>
+            <a class="logo" href="#"><img style="max-width: 450px" class="img-fluid for-light" src="<?= base_url('assets/images/logo/logo.png') ?>" alt="looginpage"><img style="max-width: 200px;" class="img-fluid for-dark" src="~/assets/images/logo/logo_dark.png" alt="looginpage"></a>
+        </div>
+        <div class="login-main">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form id="account" method="post">
+                <h4>Sign in to account</h4>
+                <p>Enter your email & password to login</p>
+                <div class="form-group">
+                    <label class="col-form-label">Email Address</label>
+                    <input asp-for="Input.Email" class="form-control" type="email" required="" placeholder="test@yopmail.com">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Password</label>
+                    <div class="form-input position-relative">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mb-0">
+                    <div class="text-end mt-3">
+                        <button id="login-submit" class="btn btn-primary btn-block w-100" type="submit">Log in</button>
+                    </div>
+                </div>
+            </form>
+            <p>
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register account</a>
+            </p>
+        </div>
+    </div>
+</div>

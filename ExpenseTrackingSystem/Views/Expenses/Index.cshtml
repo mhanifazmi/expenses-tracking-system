@@ -1,0 +1,118 @@
+﻿@model IEnumerable<ExpenseTrackingSystem.Models.Expense>
+@inject ExpenseTrackingSystem.Data.ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Index";
+    int key = 1;
+}
+
+<div class="container-fluid">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-6 d-flex">
+                <h3>Account Listing</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- HTML (DOM) sourced data  Starts-->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5>Account Listing</h5>
+                    <a asp-action="Create">
+                        <button class="btn btn-primary pull-right" type="button" data-bs-toggle="tooltip" title="" data-bs-original-title="btn btn-primary">Create Account</button>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="data-source-1" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Amount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Type)
+                                    </th>
+                                    <th>
+                                       Account
+                                    </th>
+                                    <th>
+                                       Category
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Date)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@key</td>
+                                        <td>
+                                            @(item.Amount.ToString("C"))
+                                        </td>
+                                        <td>
+                                            @(item.Type == 1 ? "Expense" : "Saving")
+                                        </td>
+                                        <td>
+                                            @GetAccountName(item.AccountId)
+                                        </td>
+                                        <td>
+                                            @GetCategoryName(item.CategoryId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            <ul class="action d-flex justify-content-around w-50 text-center mx-auto">
+                                                <li class="view"><a asp-action="Details" asp-route-id="@item.Id"><i class="icon-eye"></i></a></li>
+                                                <li class="edit"> <a asp-action="Edit" asp-route-id="@item.Id"><i class="icofont icofont-ui-edit"></i></a></li>
+                                                <li class="delete"><a asp-action="Delete" asp-route-id="@item.Id"><i class="icofont icofont-trash"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    key++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@functions {
+    public string GetAccountName(int accountId)
+    {
+        if (Context != null)
+        {
+            var account = Context.Account.FirstOrDefault(a => a.Id == accountId);
+            return account != null ? account.Name : "No Account";
+        }
+        return "-";
+    }
+}
+
+@functions {
+    public string GetCategoryName(int categoryId)
+    {
+        if (Context != null)
+        {
+            var category = Context.Category.FirstOrDefault(a => a.Id == categoryId);
+            return category != null ? category.Name : "No Category";
+        }
+        return "-";
+    }
+}
